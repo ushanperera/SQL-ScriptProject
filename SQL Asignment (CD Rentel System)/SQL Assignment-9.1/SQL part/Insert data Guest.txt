@@ -1,0 +1,3 @@
+
+select * from Guest
+insert into Guest values ('0015 v','881000588v','Sampath','Bandara',100025012,2009/10/2,'Visa',12,'Main_street','Colombo03','0715554443','yes',0112222545,'cat@yahoo.com','Hollyday',2009/10/12,07.00,'Tranasia')

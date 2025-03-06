@@ -1,0 +1,7 @@
+
+create table a (  a int)
+create table b (  b int)
+
+insert into a values(5)
+
+insert into b select * from a where a=3 

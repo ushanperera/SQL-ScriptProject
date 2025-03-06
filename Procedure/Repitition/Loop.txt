@@ -1,0 +1,45 @@
+CREATE proc Branch_To_Code
+
+as 
+
+declare @EMPNO	char(20)
+declare @branch	char(50)
+declare @bracode char(10)
+
+declare AttenCursor cursor scroll
+for
+SELECT empno,branch from employees
+
+open AttenCursor
+fetch next from AttenCursor into @EMPNO,@branch
+begin tran
+print @@fetch_status
+while @@fetch_status=0
+begin
+
+	select @bracode = Branch_Code  from employee_branch where Branch_Name = @branch
+	
+	update employees set branch = @bracode where EmpNo = @EMPNO
+
+	fetch next from AttenCursor into @EMPNO,@branch
+	print 'Going to next record'
+end
+
+close AttenCursor
+deallocate AttenCursor
+
+
+If @@ERROR <> 0 
+	Begin 
+		Rollback Transaction
+		Return(1)
+	End
+Else
+	Begin
+		Commit Transaction
+		Return(0)
+	End
+
+
+
+GO

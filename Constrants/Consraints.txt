@@ -1,0 +1,9 @@
+alter table tblEmployee add constraint  PK_Emp primary key (empID)
+
+ALTER TABLE tblAttendence ADD FOREIGN KEY (EmpNo) REFERENCES tblEmployee(empID)
+
+Alter table tblCalander add  Rec_Completed bit default 0 with values
+
+alter table [tblCalander] add constraint  check_Type check ([DayType] in ('Holiday','WeekEnd','WorkingDay','CompanyHoliday'))
+
+

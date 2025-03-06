@@ -1,0 +1,5 @@
+      File name extension 
+Primary data      ---     file .mdf 
+Secondary data    ---     file .ndf 
+Transaction log   ---     file .ldf 
+

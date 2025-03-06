@@ -1,0 +1,13 @@
+--copy to Existing table
+
+insert into a(a1,a2) select b1,b2 from b
+
+--copy to New table(table Will be created)
+
+select b1,b2 into c from b
+
+
+
+
+
+select CombItemCode , b.vITemDesc into tblTmp from tblCombItem a, stk b where a.CombItemCode = b.vItemCode

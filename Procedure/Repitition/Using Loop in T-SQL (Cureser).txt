@@ -1,0 +1,70 @@
+
+CREATE proc UpdateValue as  
+
+declare @i int
+declare @Dpmt varchar(20)
+set @i=1
+
+declare AttenCursor cursor scroll 
+for
+SELECT Distinct(DName) from Dpt
+
+open AttenCursor
+fetch next from AttenCursor into @Dpmt
+begin tran
+print @@fetch_status
+while @@fetch_status=0
+begin
+	
+	update emp set setvalue = @i where Dpmt = @Dpmt
+
+	fetch next from AttenCursor into @Dpmt
+	print 'Going to next record'
+	set @i=@i+1
+end
+
+close AttenCursor
+deallocate AttenCursor
+
+If @@ERROR <> 0 
+	Begin 
+		Rollback Transaction
+		Return(1)
+	End
+Else
+	Begin
+		Commit Transaction
+		Return(0)
+	End
+
+
+
+GO
+
+
+
+
+--Using Tables
+
+CREATE TABLE [emp] (
+	[EID] [int] NULL ,
+	[EName] [varchar] (20)  ,
+	[setvalue] [int] NULL ,
+	[Dpmt] [varchar] (50)  
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [Dpt] (
+	[DID] [int] NULL ,
+	[DName] [varchar] (20) 
+) ON [PRIMARY]
+GO
+
+
+
+select * from emp
+select * from Dpt
+
+exec UpdateValue
+

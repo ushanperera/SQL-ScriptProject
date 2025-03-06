@@ -1,0 +1,25 @@
+
+IF EXISTS (SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+      WHERE TABLE_NAME = 'orders22')
+   DROP TABLE orders22
+GO
+SET NOCOUNT ON
+CREATE TABLE orders22
+(
+ order_id int IDENTITY(1000, 1) NOT NULL,
+ cust_id  int NOT NULL,
+ order_date smalldatetime NOT NULL DEFAULT GETDATE(),
+ order_amt money NOT NULL,
+ order_person char(30) NOT NULL DEFAULT CURRENT_USER
+)
+GO
+
+
+
+INSERT orders22 (cust_id, order_amt)
+VALUES (5105, 577.95)
+GO
+SET NOCOUNT OFF
+
+SELECT * FROM orders22
+ 

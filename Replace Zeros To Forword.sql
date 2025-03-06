@@ -1,0 +1,1 @@
+update stk set tryloc=replicate(0,3-len(tryloc))+tryloc  from stk

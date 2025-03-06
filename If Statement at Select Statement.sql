@@ -1,0 +1,1 @@
+select case earning when 1 then '+' else '-' end from Salarycategory

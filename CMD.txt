@@ -1,0 +1,1 @@
+To Work in DOS Mode Type ISQL in CMD Prompt

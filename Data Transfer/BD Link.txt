@@ -1,0 +1,17 @@
+
+
+EXEC master.dbo.sp_addlinkedserver @server = N'USHAN', @srvproduct=N'SQL Server'
+
+EXEC sp_addlinkedsrvlogin USHAN, 'false', 'sa', 'sa', ''
+
+
+SELECT * FROM USHAN.[GLITZ].[dbo].EMP_M
+
+insert into [USHAN\SERVER2005].testDB.dbo.test1 select vEmpID  FROM USHAN.[GLITZ].[dbo].EMP_M
+
+SELECT * FROM OPENQUERY( USHAN, 'SELECT * FROM USHAN.[GLITZ].[dbo].EMP_M') Order By vEmpID
+
+
+
+EXEC sp_dropserver 'USHAN', 'droplogins'
+

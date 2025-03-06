@@ -1,0 +1,30 @@
+-- Find the Users
+SELECT CURRENT_USER
+SELECT USER_NAME(4)
+
+
+CREATE LOGIN Abc WITH PASSWORD = '7Ky'
+CREATE USER AbolrousHazem
+
+
+CREATE LOGIN Abc   WITH PASSWORD = '8fd'
+USE tempdb
+CREATE USER Wanida FOR LOGIN Abc
+
+
+CREATE LOGIN Abc   WITH PASSWORD = '8fd'
+USE tempdb
+CREATE USER Wanida FOR LOGIN Abc WITH DEFAULT_SCHEMA = Marketing;
+
+
+
+
+
+
+
+
+
+---- Additional
+USE tempdb
+CREATE CERTIFICATE Production55 WITH SUBJECT = 'Production Facility',EXPIRY_DATE = '11/11/2011';
+CREATE USER JinghaoLiu FOR CERTIFICATE Production55

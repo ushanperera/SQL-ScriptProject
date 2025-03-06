@@ -1,0 +1,7 @@
+-- reman table
+EXEC sp_rename 'tblMatIssue', 'tblMatIssue_D'
+
+-- rename Column 
+EXEC sp_rename 
+@objname= 'tblMatIssue_D.TrnNu', 
+@newname = 'MatIssuID'

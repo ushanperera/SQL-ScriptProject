@@ -1,0 +1,31 @@
+--Step 1: Create the database mail profile account using SQL Server Management Studio. Give the profile name to “FreeSpaceAlertMails”
+--Step2: Create the below procedure in master database which will check the disk space.
+
+
+CREATE PROCEDURE sendAlertMails
+
+AS
+BEGIN
+SET NOCOUNT ON
+DECLARE @availableSpace AS FLOAT
+DECLARE @alertMessage AS Varchar(4000)
+CREATE TABLE #tbldiskSpace
+(
+driveName VARCHAR(3),
+freeSpace FLOAT
+)
+INSERT INTO #tbldiskSpace EXEC master..XP_FixedDrives
+SELECT @availableSpace = ROUND((freeSpace)/1024,1) FROM #tbldiskSpace WHERE driveName = 'D'
+SET @alertMessage = '(host:jshah.sqldbpool.com)E:\ Disk Space Critical. Free Space Available on E:\ Drive is ' + CAST(@availableSpace AS VARCHAR) + 'GB'
+IF @availableSpace < 10
+BEGIN
+EXEC msdb.dbo.sp_send_dbmail
+@profile_name = 'FreeSpaceAlertMails',
+@recipients = 'jshah143@gmail.com',
+@body = @alertMessage,
+@importance = ‘High’,
+@subject = ‘host:jshah.sqldbpool.com Disk Critical E Drive’ ;
+END
+DROP TABLE #tbldiskSpace
+END
+Step 3: Create the job which will execute the above procedure at every 2 hours interval.

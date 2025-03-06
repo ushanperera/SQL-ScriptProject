@@ -1,0 +1,65 @@
+/* Creating a view Details*/
+
+Exec sp_columns Hotel
+
+Create View v_Hoteldet
+As
+Select  *
+From Hotel
+
+Select * From v_Hoteldet
+
+
+
+
+
+
+Exec sp_columns Guest
+
+Create View v_Guestdet
+As
+Select  *
+From Guest
+
+Select * From v_Guestdet
+
+
+
+
+
+
+Exec sp_columns Reservation
+
+Create View v_Resdet
+As
+Select  *
+From Reservation
+
+Select * From v_Resdet
+
+
+
+
+
+
+Exec sp_columns Room
+
+Create View v_Roomdet
+As
+Select  *
+From Room
+
+Select * From v_Roomdet
+
+
+
+
+
+
+Exec sp_columns Invoice
+Create View v_Invoicedet
+As
+Select  *
+From Invoice
+
+Select * From v_Invoicedet

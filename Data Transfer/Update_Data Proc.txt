@@ -1,0 +1,72 @@
+
+
+alter proc [dbo].[DataTransfer]( @FromServer varchar(50),@ToServer Varchar(50),@FromDB Varchar(50),@ToDB Varchar(50),@pretval numeric(2, 0) OUTPUT)
+AS
+--BEGIN TRY
+	DECLARE @tmp varchar(50) ,@statmnt NVARCHAR(1000) ,@DataCursor CURSOR
+	
+	set @DataCursor= CURSOR FOR SELECT [table_name] FROM information_schema.tables where [Table_type]='BASE TABLE' 
+
+	BEGIN TRANSACTION
+		
+		OPEN @DataCursor 
+		FETCH NEXT FROM @DataCursor INTO @tmp 
+
+			WHILE @@FETCH_STATUS <> -1 
+				BEGIN 
+					
+					print @tmp
+			BEGIN TRANSACTION
+				--insert into [USHAN\SERVER2005].testDB.dbo.test1 select vEmpID  FROM USHAN.[GLITZ].[dbo].EMP_M
+				set @statmnt ='INSERT INTO ' + QUOTENAME(@ToServer) + '.' + QUOTENAME(@ToDB) +'.[dbo].'+ QUOTENAME(@tmp)+ ' SELECT *  FROM ' + QUOTENAME(@FromServer)+ '.' + quotename(@FromDB)+'.[dbo].'+ QUOTENAME(@tmp) + ' WHERE Upload = 0 ';
+				print @statmnt
+				exec (@statmnt);
+
+				FETCH NEXT FROM @DataCursor INTO @tmp 
+			COMMIT TRANSACTION
+				END 
+
+	
+			CLOSE @DataCursor 
+			DEALLOCATE @DataCursor
+
+
+
+
+			--Set upload bit
+			
+				 
+				--SET @statmnt ='EXEC '+ QUOTENAME(@FromServer)+ '.' + QUOTENAME(@FromDB)+'.[dbo].UpdateUpdationStatus @TblName = '+ @tmp ;
+				--PRINT @statmnt
+				--EXEC (@statmnt);
+			
+
+	
+
+If @@ERROR <> 0
+Begin
+	print 'Error Ocurred Transaction Rollbacked'
+	Rollback Transaction
+	Return(1)
+End
+Else
+	print 'Succesfull'
+	Begin
+	Commit Transaction
+	
+declare @i numeric(2)
+exec @i= [USHAN].[SunInventory].[dbo].UpdateUpdationStatus
+
+	if(@i=1)
+		Print 'Sucessfull  in Uploaded Proc'
+	else
+		print 'Error Occured  in Uploaded Proc'
+
+
+Return(0)
+End
+
+
+
+--exec [DataTransfer] @FromServer='USHAN',@ToServer='USHAN\SERVER2005',@FromDB='SunInventory',@ToDB='testDB',@pretval=0
+

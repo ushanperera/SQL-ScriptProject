@@ -1,0 +1,85 @@
+set ANSI_NULLS ON
+set QUOTED_IDENTIFIER ON
+go
+
+ALTER proc [dbo].[data_Upload]
+as
+
+declare @empno varchar(4)
+declare @EmployeeName varchar(150)
+declare @last_name varchar(30)
+declare @initials varchar(10)
+declare @add_ln1 varchar(30)
+declare @add_ln2 varchar(30)
+declare @add_ln3 varchar(30)
+declare @des_code char(2)
+declare @date_of_birth datetime
+declare @NIC_no varchar(11)
+declare @gender char(6)
+declare @date_joined datetime
+declare @civil_status varchar(7)
+declare @active_status char(1)
+declare @Activ char(1)
+declare @BankCode varchar(30)
+declare @BranchCode varchar(50)
+
+declare AttenCursor cursor scroll
+for
+SELECT empno FROM TMP_EMPLOYEE
+open AttenCursor
+fetch next from AttenCursor into @empno
+begin tran
+print @@fetch_status
+while @@fetch_status=0
+begin
+
+--if len(@EMPNO)='1' begin
+--@EMPNO = '00'+@EMPNO
+--end
+
+Select @last_name = last_name from TMP_EMPLOYEE where empno = @empno
+Select @initials = initials from TMP_EMPLOYEE where empno = @empno
+set @EmployeeName = @initials + ' '+ @last_name
+Select @add_ln1 = add_ln1 from TMP_EMPLOYEE where empno = @empno
+Select @add_ln2 = add_ln2 from TMP_EMPLOYEE where empno = @empno
+Select @add_ln3 = add_ln3 from TMP_EMPLOYEE where empno = @empno
+Select @des_code = des_code from TMP_EMPLOYEE where empno = @empno
+Select @date_of_birth = date_of_birth from TMP_EMPLOYEE where empno = @empno
+Select @NIC_no = NIC_no from TMP_EMPLOYEE where empno = @empno
+Select @gender = gender from TMP_EMPLOYEE where empno = @empno
+Select @date_joined = date_joined from TMP_EMPLOYEE where empno = @empno
+Select @civil_status = civil_status from TMP_EMPLOYEE where empno = @empno
+Select @active_status = active_status from TMP_EMPLOYEE where empno = @empno
+
+if @active_status = 'Y' begin
+set @Activ = '1'
+end
+if @active_status = 'N' begin
+set @Activ = '0'
+end
+
+Select @BankCode = BankCode from TMP_EMPLOYEE where empno = @empno
+Select @BranchCode = BranchCode from TMP_EMPLOYEE where empno = @empno
+
+
+insert into employees(empno,[Employee Name],[Last Name],Initials,Status,Sex,NID,Address1,Address2,Address3,[Date of Birth],Designation,[Appointed From],Active,BankCode,EPFAllowed,Branch,link,epfY,[Basic Salary])
+values (@empno,@EmployeeName,@last_name,@initials,@civil_status,@gender,@NIC_no,@add_ln1,@add_ln2,@add_ln3,@date_of_birth,@des_code,@date_joined,@Activ,@BankCode,'Yes',@BranchCode,'1','1','0')
+
+fetch next from AttenCursor into @Empno
+print 'Going to next record'
+end
+
+close AttenCursor
+deallocate AttenCursor
+
+If @@ERROR <> 0
+Begin
+Rollback Transaction
+Return(1)
+End
+Else
+Begin
+Commit Transaction
+Return(0)
+End
+

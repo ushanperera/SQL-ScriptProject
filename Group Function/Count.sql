@@ -1,0 +1,5 @@
+USE abc
+
+--SELECT COUNT(*)
+SELECT COUNT (DISTINCT dpt)
+FROM emp

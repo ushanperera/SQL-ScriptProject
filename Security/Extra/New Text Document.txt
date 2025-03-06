@@ -1,0 +1,29 @@
+Syntax
+ 
+SELECT statement ::=  
+    [WITH <common_table_expression> [,...n]]
+    <query_expression> 
+    [ ORDER BY { order_by_expression | column_position [ ASC | DESC ] } 
+  [ ,...n ] ] 
+    [ COMPUTE 
+  { { AVG | COUNT | MAX | MIN | SUM } ( expression ) } [ ,...n ] 
+  [ BY expression [ ,...n ] ] 
+    ] 
+    [ <FOR Clause>] 
+    [ OPTION ( <query_hint> [ ,...n ] ) ] 
+<query expression> ::= 
+    { <query specification> | ( <query expression> ) } 
+    [  { UNION [ ALL ] | EXCEPT | INTERSECT }
+        <query specification> | ( <query expression> ) [...n ] ] 
+<query specification> ::= 
+SELECT [ ALL | DISTINCT ] 
+    [TOP expression [PERCENT] [ WITH TIES ] ] 
+    < select_list > 
+    [ INTO new_table ] 
+    [ FROM { <table_source> } [ ,...n ] ] 
+    [ WHERE <search_condition> ] 
+    [ GROUP BY [ ALL ] group_by_expression [ ,...n ] 
+    [ WITH { CUBE | ROLLUP } ]
+    ]
+    [ HAVING < search_condition > ] 
+ 

@@ -1,0 +1,6 @@
+select * from Guest
+insert into Guest values ('0015 v','881000588v','Sampath','Bandara',100025012,2009/10/2,'Visa',12,'Main_street','Colombo03','0715554443','yes',0112222545,'cat@yahoo.com','Hollyday',2009/10/12,07.00,'Tranasia')
+insert into Guest values ('1125 v','811050588v','Sampath','Bandaranayake',666999512,2010/10/2,'Master',998,'Main_street','Dabulla','0777694443','no',0372111545,'cat@yahoo.com','Official',2009/10/12,02.00,'Kandalam')
+insert into Guest values ('2222 v','889546588v','Gihan','Perera',100022212,2009/12/21,'Classic',458,'Main_street','Colombo02','0722284443','yes',0112222999,'see@yahoo.com','Hollyday',2009/02/12,10.00,'Galadari')
+insert into Guest values ('7825 v',902560588v','Puspika',Rathnayake',111125012,2009/12/2,'Premium',120,'Dalada veediya','Kandy','0715111143','yes',0812226665,'queens@yahoo.com','Official',2010/10/12,07.00,'Queens')
+insert into Guest values ('9965 v','891110588v','Hasini','Sulasthika',1000262879,2010/10/2,'Visa',100,'Cinamongarden','Colombo07','0725554443','no',0112225545,'cino@yahoo.com','Hollyday',2009/08/25,07.00,'Cinamongardence')

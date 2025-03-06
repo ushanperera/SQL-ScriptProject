@@ -1,0 +1,15 @@
+CREATE TABlE T1 (EmpID int,EmpName varchar(8),BDay datetime)
+
+drop table t1
+
+ALTER TABLE T1
+ADD CONSTRAINT C_BD CHECK(BDay > '01-01-1999' AND BDay < '01-01-2005') 
+				      --BETWEEN '01-01-1999' AND '01-01-2005'
+
+
+INSERT INTO T1 DEFAULT VALUES 
+
+INSERT INTO T1 VALUES(111,1111,'01-01-2000')-- can
+INSERT INTO T1 VALUES(111,1111,'01-01-2008')-- can't
+
+select * from t1

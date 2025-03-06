@@ -1,0 +1,51 @@
+
+
+
+ALTER proc [dbo].[UpdateUpdationStatus](@pretval numeric(2, 0)=null OUTPUT)
+AS
+--BEGIN TRY
+	DECLARE @tmp varchar(50) ,@statmnt NVARCHAR(1000) ,@DataCursor CURSOR
+	
+	set @DataCursor= CURSOR FOR SELECT [table_name] FROM information_schema.tables where [Table_type]='BASE TABLE' 
+
+	BEGIN TRANSACTION
+		
+		OPEN @DataCursor 
+		FETCH NEXT FROM @DataCursor INTO @tmp 
+
+			WHILE @@FETCH_STATUS <> -1 
+				BEGIN 
+					
+					print @tmp
+			BEGIN TRANSACTION
+				--insert into [USHAN\SERVER2005].testDB.dbo.test1 select vEmpID  FROM USHAN.[GLITZ].[dbo].EMP_M
+				set @statmnt ='UPDATE ' + QUOTENAME(@tmp)+ 'SET Upload = 1 ';
+				print @statmnt
+				exec (@statmnt);
+
+				FETCH NEXT FROM @DataCursor INTO @tmp 
+			COMMIT TRANSACTION
+				END 
+
+	
+			CLOSE @DataCursor 
+			DEALLOCATE @DataCursor
+
+
+If @@ERROR <> 0
+Begin
+	print 'Error Ocurred Transaction Rollbacked'
+	Rollback Transaction
+	Return(0)
+End
+Else
+	print 'Succesfull'
+	Begin
+	Commit Transaction
+Return(1)
+End
+
+--declare @i numeric(2)
+--exec @i= UpdateUpdationStatus
+--print @i
+

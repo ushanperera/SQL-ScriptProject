@@ -1,0 +1,24 @@
+DECLARE @tmp varchar(50) ,@statmnt NVARCHAR(1000) ,@DataCursor CURSOR
+
+	set @DataCursor= CURSOR FOR SELECT [table_name] FROM  information_schema.tables where [Table_type]='BASE TABLE' 
+	
+		OPEN @DataCursor 
+		FETCH NEXT FROM @DataCursor INTO @tmp 
+
+			WHILE @@FETCH_STATUS <> -1
+				BEGIN 				
+					print @tmp
+					BEGIN TRANSACTION		
+						IF EXISTS( SELECT * FROM INFORMATION_SCHEMA.COLUMNS  WHERE  TABLE_NAME = @tmp AND  COLUMN_NAME = 'Upload') 
+							set @statmnt = ''; 
+						else 
+							set @statmnt = 'alter table ' + @tmp +' ADD Upload BIT DEFAULT(0) WITH VALUES '; 			
+							print @statmnt
+							exec (@statmnt);	
+
+						FETCH NEXT FROM @DataCursor INTO @tmp 
+					COMMIT TRANSACTION
+				END 
+	
+			CLOSE @DataCursor 
+			DEALLOCATE @DataCursor

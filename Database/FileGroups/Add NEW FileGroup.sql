@@ -1,0 +1,6 @@
+
+USE abc
+GO
+ALTER DATABASE abc
+ADD FILEGROUP department
+GO

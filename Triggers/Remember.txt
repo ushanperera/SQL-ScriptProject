@@ -1,0 +1,5 @@
+
+Two types of trggers 
+1.FOR/AFTER  : exexcte after
+2.INSTEAD OF : execute before
+			      the transaction
